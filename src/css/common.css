@@ -16,3 +16,26 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+  display: flex;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.field span:first-child {
+  display: flex;
+
+  /* align-items: center; */
+  justify-content: center;
+
+  
+  font-size: 35px;
+  font-weight: 500;
+ 
+}
