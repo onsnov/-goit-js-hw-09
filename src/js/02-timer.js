@@ -13,36 +13,62 @@ const refs = {
     secondsEl : document.querySelector('[data-seconds]')
 }
 
-refs.startBtn.disable = true;
-
-refs.startBtn.addEventListener('click', onStartTimer);
+ refs.startBtn.disabled = true;
+ refs.startBtn.addEventListener('click', onStartTimer);
 
 function onStartTimer() {
   intervalId = setInterval(startTimer, 1000);
-  refs.startBtn.disable = true;
+  refs.startBtn.disabled = true;
 
 };
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    onSelectValidDate(selectedDates[0]);
+    console.log(selectedDates[0]);
+  },
+};
+
+flatpickr(refs.inputField, options);
+
+function onSelectValidDate(selectedDates) {
+  inputDate = selectedDates.getTime();
+  if (inputDate < Date.now()) {
+    refs.startBtn.disabled = true;
+    window.alert('Please choose a date in the future');
+    return;
+  }
+  refs.startBtn.disabled = false;
+}
+
+
  function updateClockface({ days, hours, minutes, seconds }) {
    refs.secondsEl.textContent = addLeadingZero(seconds);
    refs.minutesEl.textContent = addLeadingZero(minutes);
    refs.hoursEl.textContent = addLeadingZero(hours);
-   if (days > 99) {refs.dayEl.textContent = days;
+  
+   if (days > 99) {refs.dayEL.textContent = days;
    }
-   refs.dayEl.textContent = addLeadingZero(days);
+    refs.dayEL.textContent = addLeadingZero(days);
+   
  }
 
 function startTimer() {
     const deltaTime = inputDate - Date.now();
     const timeComponents = convertMs(deltaTime);
     updateClockface(timeComponents);
-    if (refs.secondsEl.textContent === '00' &&refs.minutesEl.textContent === '00' &&refs.hoursEl.textContent === '00' && refs.dayEl.textContent === '00')
-    { Report.success('Time is over!');
+  if (refs.secondsEl.textContent === '00' && refs.minutesEl.textContent === '00' && refs.hoursEl.textContent === '00' && refs.dayEL.textContent === '00')
+  {
+      window.alert('Time is over!');
       clearInterval(intervalId);
-      btnStart.disabled = false;
+      refs.startBtn.disabled = false;
     }
 };
 
@@ -62,27 +88,7 @@ function convertMs(ms) {
   
 }
 
-   const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      onSelectValidDate(selectedDates[0]);
-      console.log(selectedDates[0]);
-    },
-};
+   
   
 
-flatpickr(refs.inputField, options);   
-
-function onSelectValidDate(selectedDates) { 
-  inputDate = selectedDates.getTime();
-  if (inputDate < Date.now()){
-    refs.startBtn.disable = true;
-    window.alert('Please choose a date in the future');
-    return;
-  }
-  refs.startBtn.disable = false;
-}
 
