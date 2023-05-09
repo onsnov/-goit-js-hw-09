@@ -13,7 +13,7 @@ const refs = {
     secondsEl : document.querySelector('[data-seconds]')
 }
 
- refs.startBtn.disabled = true;
+ refs.startBtn.disabled = true;   
  refs.startBtn.addEventListener('click', onStartTimer);
 
 function onStartTimer() {
