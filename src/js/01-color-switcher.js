@@ -8,6 +8,7 @@ btnStop.addEventListener('click', stopChangeBgc);
 
 
 let intervalId = null;
+btnStop.disabled = true;
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
